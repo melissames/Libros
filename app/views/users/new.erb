@@ -1,4 +1,7 @@
-<h1>Create New User</h1>
+
+<div class="jumbotron">
+  <h1 class="display-4">Create New User</h1>
+</div>
 
   <% if @user.errors.any? %>
     <% @user.errors.full_messages.each do |message| %>
@@ -10,13 +13,12 @@
 
   <%= form_for @user do |f| %>
     <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: "form-control" %><br>
+      <!-- <%= f.label :name %> -->
+      <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
+      <!-- <%= f.label :password %> -->
+      <%= f.password_field :password, class: "form-control", placeholder:"Enter Password" %><br>
+      <!-- <%= f.label :password_confirmation %> -->
+      <%= f.password_field :password_confirmation, class: "form-control", placeholder:"Confirm Password"%><br>
+      <%= f.submit%>
     </div>
-
-  <%= f.label :password %>
-  <%= f.password_field :password, class: "form-control" %><br>
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation, class: "form-control" %><br>
-  <%= f.submit%>
   <% end %>

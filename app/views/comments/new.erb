@@ -3,4 +3,9 @@
 
 <%= form_for @comment do |f| %>
 
-<%= f.label :content %>
+<%= f.label :content %><br>
+<%= f.text_area :content %><br>
+
+<%= f.submit %>
+
+<% end %>
