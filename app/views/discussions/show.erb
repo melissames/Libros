@@ -1,0 +1,7 @@
+<h1><%= @discussion.topic %></h1>
+<h3><%= link_to @discussion.book.title, book_path(@discussion.book_id), method: :get %></h3>
+
+<p>Lots of comments about disc topic</p>
+
+<br><br>
+<%= button_to "Back to Discussions", discussions_path, method: :get %>

@@ -1,0 +1,8 @@
+<h1> Discussion Database!!!! </h1>
+
+<% @discussions.each do |disc| %>
+  <%= link_to disc.topic, disc %>
+<% end %>
+
+
+<%= button_to "New Discussion Topic", new_discussion_path, method: :get %>

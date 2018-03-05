@@ -1,0 +1,19 @@
+<h1>Create a new discussion thread</h1>
+
+<% if @discussion.errors.any? %>
+  <% @discussion.errors.full_messages.each do |message| %>
+    <ul>
+      <li><%= message %></li>
+    </ul>
+  <% end %>
+<% end %>
+
+<%= form_for @discussion do |f| %>
+<%= f.label :topic %>
+<%= f.text_field :topic %><br>
+
+<%= f.label :book_id %>
+<%= f.collection_select :book_id, Book.all, :id, :title %><br>
+
+<%= f.submit %>
+<% end %>
