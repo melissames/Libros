@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :get_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_login, only: [:index, :show, :edit, :update, :destroy]
+
 
   def home
 
@@ -19,6 +21,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params(:name, :password, :password_confirmation))
     if @user.save
+      session[:current_user_id] = @user.id
       redirect_to user_path(@user)
     else
       render :new
@@ -26,6 +29,12 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if check_session
+      render :edit
+    else
+      flash[:message] = "You can only edit your own profile"
+      redirect_to user_path(@user)
+    end
   end
 
   def update
@@ -37,8 +46,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    redirect_to users_path
+    if check_session
+      @user.destroy
+      redirect_to users_path
+    else
+      flash[:message] = "You can only delete your own account"
+      redirect_to user_path(@user)
+    end
   end
 
   private
@@ -50,5 +64,10 @@ class UsersController < ApplicationController
     def get_user
       @user = User.find(params[:id])
     end
+
+    def check_session
+      params[:id] == session[:current_user_id]
+    end
+
 
 end

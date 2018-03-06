@@ -14,10 +14,8 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(comment_params)
-    # @comment.user_id = session[:user_id]
-    
     if @comment.save
-      redirect_to comment_path(@comment)
+      redirect_to discussion_path(@comment.discussion_id)
     else
       render :new
     end
@@ -29,7 +27,7 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:discussion_id, :content)
+    params.require(:comment).permit(:discussion_id, :content, :user_id)
   end
 
 end

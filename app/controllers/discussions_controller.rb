@@ -1,5 +1,7 @@
 class DiscussionsController < ApplicationController
 
+
+  before_action :require_login, only: [:new, :create]
   before_action :get_discussion, only: [:show]
 
   def index
@@ -7,6 +9,7 @@ class DiscussionsController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
   end
 
   def new

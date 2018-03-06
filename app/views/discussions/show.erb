@@ -1,7 +1,29 @@
 <h1><%= @discussion.topic %></h1>
 <h3><%= link_to @discussion.book.title, book_path(@discussion.book_id), method: :get %></h3>
 
-<p>Lots of comments about disc topic</p>
+
+
+
+  <div class="card card-primary">
+  <% @discussion.comments.each do |comment| %>
+    <div class="card-header">
+      <p class="card-title"><%= link_to comment.user.name, user_path(comment.user_id) %></p>
+    </div>
+    <div class="card-text">
+      <p>  <%= comment.content %></p>
+    </div>
+    <br>
+    <% end %>
+  </div>
+<br>
+
+  <%= form_for @comment do |f| %>
+    <%= f.hidden_field :discussion_id, value: @discussion.id %>
+    <%= f.hidden_field :user_id, value: session[:current_user_id] %>
+    <%= f.text_area :content, placeholder: 'Write your post about this discussion' %>
+    <%= f.submit %>
+  <% end %>
 
 <br><br>
+
 <%= button_to "Back to Discussions", discussions_path, method: :get %>

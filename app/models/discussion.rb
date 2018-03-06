@@ -1,6 +1,6 @@
 class Discussion < ApplicationRecord
-  has_many :user_discussions
-  has_many :users, through: :user_discussions
+  has_many :comments
+  has_many :users, through: :comments
   belongs_to :book
 
   validates :topic, presence: true

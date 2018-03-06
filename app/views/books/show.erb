@@ -1,2 +1,41 @@
-<h1> <%= @book.title %> </h1>
-<%= button_to "Back to Books", books_path, method: 'get' %>
+
+<div class="jumbotron">
+  <h1> <%= @book.title %> </h1>
+  <% if @book.authors != [] %>
+    <h5>By: <%= @book.authors[0].name %></h5>
+  <% end %>
+</div>
+
+<%= @book.description %>
+
+<h4> Discussion Topics </h4>
+  <% @book.discussions.each do |disc| %>
+    <%= link_to disc.topic, discussion_path(disc), method: 'get' %><br>
+  <% end %>
+
+  <br><br>
+
+<% if session[:current_user_id] %>
+  <%= form_for @discussion do |f|%>
+    <%= f.label :topic %>
+    <%= f.text_field :topic %>
+    <%= f.hidden_field :book_id, value: @book.id %>
+    <%= f.submit %>
+  <% end %>
+<% end %>
+
+<% if session[:current_user_id] %>
+  <%= form_for @tag do |f|%>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= f.hidden_field :book_id, value: @book_tag.book_id %>
+    <%= f.submit %>
+  <% end %>
+<% end %>
+
+<br><br>
+
+<h3> BOOK TAGS!!! YAY </h3>
+<% @book.tags.each do |tag| %>
+  <%= tag.name %><br>
+<% end %>

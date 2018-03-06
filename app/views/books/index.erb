@@ -1,4 +1,28 @@
-<h1> BBOOOOOOKKKSSS </h1>
+<% if flash[:notice] %>
+  <div class="alert alert-warning">
+    <strong><%= flash[:notice] %></strong>
+  </div>
+<% end %>
+
+<div class="jumbotron">
+  <h1 > BBOOOOOOKKKSSS </h1>
+</div>
+
+
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:query, "Search for books:") %>
+  <%= text_field_tag(:query) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<br><br>
+
+<%= form_tag("/tag_search", method: "get") do %>
+  <%= label_tag(:query, "Search by tag:") %>
+  <%= text_field_tag :query %>
+  <%= submit_tag("Search") %>
+<% end %>
+
 
 <% @books.each do |book| %>
   <%= link_to book.title, book %>
