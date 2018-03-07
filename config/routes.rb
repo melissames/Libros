@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/search', to: 'books#search'
   get '/tag_search', to: 'books#tag_search'
   get '/discussion_and_book_search', to: 'discussions#search'
+  get '/suggested_books', to: 'users#book_suggestion'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'

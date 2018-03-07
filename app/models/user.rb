@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :discussions, through: :comments
 
   has_many :user_tags
-  has_many :tags, through: :books
+  has_many :tags, through: :user_tags
 
 
   def bookshelf
@@ -22,6 +22,12 @@ class User < ApplicationRecord
 
   def read_book(user_book, rating)
     user_book.update(read: true, user_rating: rating)
+  end
+
+  def get_suggestion
+    book_tags = BookTag.all.select do |book_tag| self.tags.include? book_tag.tag end
+    suggested_books = book_tags.map {|book_tag| book_tag.book}.uniq - self.bookshelf
+    suggested_books.sample
   end
 
 end

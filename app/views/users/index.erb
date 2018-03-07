@@ -6,8 +6,9 @@
   <div class="row">
     <% @users.each do |user|  %>
       <div class="col-lg-4">
+        <%= image_tag("/uploads/#{user.image}", width: '100') %>
         <h3><%= link_to user.name, user_path(user), html: { class:"btn btn-primary" } %></h3>
-        <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p><%= user.bio %></p>
       </div>
     <% end %>
   </div>

@@ -13,21 +13,19 @@
 
   <%= form_for @user do |f| %>
     <div class="form-group">
-      <!-- <%= f.label :name %> -->
       <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
-      <!-- <%= f.label :password %> -->
-
       <%= f.password_field :password, class: "form-control", placeholder:"Enter Password" %><br>
-      <!-- <%= f.label :password_confirmation %> -->
       <%= f.password_field :password_confirmation, class: "form-control", placeholder:"Confirm Password"%><br>
+      <%= f.text_area :bio, class: "form-control", placeholder:"Enter a brief bio..." %><br>
+      <%= f.file_field :picture %><br>
 
-
-
-        <!-- <% @tags.each do |tag| %>
+      <h5>Pick some of your favorite tags</h5>
+        <% Tag.all.each do |tag| %>
           <%= f.label tag.name %>
-          <%= f.check_box :tags, { multiple: true }, tag, false %>
-        <% end %> -->
-
+          <%= f.check_box :tags, { multiple: true }, tag.id, false %>
+          <br>
+        <% end %>
+          <br>
       <%= f.submit%>
     </div>
   <% end %>

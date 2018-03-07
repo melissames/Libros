@@ -1,8 +1,19 @@
 
 <div class="jumbotron">
-  <h1>User Profile</h1>
-  <h3><%= @user.name %></h3>
+  <h1><%= @user.name %></h1>
+  <%= image_tag("/uploads/#{@user.image}", width: '250') %>
+
+  <p><%= @user.bio %></p>
+
 </div>
+
+<br>
+
+<h1><%= @user.name.upcase %>'S FAVORITE TAGS</h1>
+  <% @user.tags.each do |tag| %>
+  #<%= tag.name %><br>
+  <% end %>
+
 
 <br>
 
@@ -10,9 +21,10 @@
 <h1><%= @user.name.upcase %>'S BOOKSHELF</h1>
 <h2>Unread Books</h2>
   <% @unread_books.each do |user_book| %>
-    <%= user_book.book.title %>
+    <%= image_tag "#{user_book.book.image}" %>
+    <strong><%= link_to user_book.book.title, book_path(user_book.book) %></strong>
 
-  <% if session[:current_user_id] %>
+  <% if session[:current_user_id] == @user.id %>
     <% @user = User.find(session[:current_user_id]) %>
       <%= form_tag read_book_path, method: :post do %>
       <%= hidden_field_tag :user_book_id, user_book.id %>
@@ -30,14 +42,16 @@
 
 <h1>Read Books</h1>
 <% @read_books.each do |user_book| %>
-  <strong><%= user_book.book.title %></strong><br>
-  Average Rating: <%= user_book.book.rating %><br>
-  User Rating: <%= user_book.user_rating %><br>
+  <%= image_tag "#{user_book.book.image}" %>
+  <strong><%= link_to user_book.book.title, book_path(user_book.book) %></strong><br>
+    Average Rating: <%= user_book.book.rating %><br>
+    User Rating: <%= user_book.user_rating %><br>
   <br>
 <% end %>
 
 <br><br>
-<% if @user.id == session[:current_user_id] %>
+
+<% if params[:id].to_i == session[:current_user_id] %>
   <%= button_to 'Edit User', edit_user_path(@user), :method => 'get' %>
   <%= button_to 'Delete User', user_path(@user), :method => 'delete' %>
 <% end %>

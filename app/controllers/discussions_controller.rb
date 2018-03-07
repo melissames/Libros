@@ -29,7 +29,7 @@ class DiscussionsController < ApplicationController
 
   def search
     @book = Book.make_book(params[:query]).first
-    if !@book
+    if !@book || @book == []
       flash[:notice] = "Please input a valid title!"
       redirect_to discussions_path
     else

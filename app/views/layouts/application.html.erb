@@ -31,14 +31,15 @@
         <a class="nav-link" href="<%= discussions_path %>">Discussions</a>
       </li>
       <br>
+
       <% if session[:current_user_id] %>
-      <% @current_user = User.find(session[:current_user_id]) %>
-      <li class="nav-item">
-         <a class="nav-link" href="<%= user_path(@current_user) %>">Hello, <%= @current_user.name %></a>
-       </li>
-       <li class="nav-item">
-         <a class="nav-link" href="<%= logout_path %>" data-method="delete">Logout</a>
-       </li>
+        <% @current_user = User.find(session[:current_user_id]) %>
+        <li class="nav-item">
+           <a class="nav-link" href="<%= user_path(@current_user) %>">Hello, <%= @current_user.name %></a>
+         </li>
+         <li class="nav-item">
+           <a class="nav-link" href="<%= logout_path %>" data-method="delete">Logout</a>
+         </li>
       <% end %>
 
     </ul>

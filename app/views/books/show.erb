@@ -1,12 +1,24 @@
 
 <div class="jumbotron">
   <h1> <%= @book.title %> </h1>
+  <%= image_tag "#{@book.image}" %>
   <% if @book.authors != [] %>
     <h5>By: <%= @book.authors[0].name %></h5>
   <% end %>
 </div>
 
 <%= @book.description %>
+<br><br>
+
+<% if session[:current_user_id] %>
+<% @user = User.find(session[:current_user_id]) %>
+  <%= form_tag add_book_path, method: :post do %>
+    <%= hidden_field_tag :book_id, value: @book_tag.book_id %>
+    <%= submit_tag "Add to reading list" %>
+  <% end %>
+<% end %>
+
+<br><br>
 
 <h4> Discussion Topics </h4>
   <% @book.discussions.each do |disc| %>
@@ -33,13 +45,7 @@
   <% end %>
 <% end %>
 
-<% if session[:current_user_id] %>
-<% @user = User.find(session[:current_user_id]) %>
-  <%= form_tag add_book_path, method: :post do %>
-    <%= hidden_field_tag :book_id, value: @book_tag.book_id %>
-    <%= submit_tag "Add to reading list" %>
-  <% end %>
-<% end %>
+
 
 <br><br>
 

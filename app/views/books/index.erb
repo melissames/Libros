@@ -23,18 +23,22 @@
   <%= submit_tag("Search") %>
 <% end %>
 
+<%= button_to "Suggested for YOU", '/suggested_books', method: 'get' %>
+
+
 <br><br>
 
   <h3>Popular Books</h3>
   <% @books.first(10).each do |book| %>
-    <%= link_to book.title, book %><br>
+    <%= image_tag "#{book.image}" %>
+    <%= link_to book.title, book %><br><br>
   <% end %>
   <br>
 
 
   <h3>Popular Tags</h3>
-  <% @books.first(10).each do |book| %>
-    <%= link_to book.title, book %><br>
+  <% Tag.first(10).each do |tag| %>
+    <%= tag.name %><br>
   <% end %>
 
 

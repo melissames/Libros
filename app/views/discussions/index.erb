@@ -28,8 +28,9 @@
 
 <% @discussed_books.each do |disc_book|  %>
   <h3><%= link_to disc_book.title, book_path(disc_book) %></h3>
+  <%= image_tag "#{disc_book.image}" %>
         <% disc_book.discussions.each do |disc| %>
-        <%= link_to disc.topic, disc %><br>
+        <%= link_to disc.topic, disc %><br><br>
       <% end %>
 <% end %>
 

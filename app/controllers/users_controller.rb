@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
-  before_action :get_user, only: [:show, :edit, :update, :destroy]
+  before_action :get_user, only: [:show, :edit, :update, :destroy, :mark_as_read]
   before_action :require_login, only: [:index, :show, :edit, :update, :destroy]
-  before_action :current_user, only: [:add_book, :mark_as_read]
+  before_action :current_user, only: [:add_book, :book_suggestion]
   before_action :books_to_read, only: [:show]
 
   def home
-
   end
 
   def index
@@ -13,8 +12,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @current_user = current_user
-
   end
 
   def new
@@ -23,8 +20,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params(:name, :password, :password_confirmation))
+    @user = User.new(user_params(:name, :password, :password_confirmation, :bio))
+    params[:user][:tags].each do |tag|
+      @user.tags << Tag.find(tag)
+    end
+    @user.image = params[:user][:picture].original_filename
+
     if @user.save
+      upload unless params[:user][:picture] == nil
       session[:current_user_id] = @user.id
       redirect_to user_path(@user)
     else
@@ -33,6 +36,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @tags = Tag.all
     if check_session
       render :edit
     else
@@ -42,7 +46,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params(:name))
+    if @user.update(user_params(:name, :bio))
+      params[:user][:tags].each do |tag|
+        @user.tags << Tag.find(tag)
+      end
       redirect_to user_path(@user)
     else
       render :edit
@@ -51,8 +58,8 @@ class UsersController < ApplicationController
 
   def add_book
     @book = Book.find(params[:id])
-    @user.add_to_reading_list(@book)
-    redirect_to @user
+    @current_user.add_to_reading_list(@book)
+    redirect_to @current_user
   end
 
   def mark_as_read
@@ -65,6 +72,7 @@ class UsersController < ApplicationController
 
   def destroy
     if check_session
+      session.clear
       @user.destroy
       redirect_to users_path
     else
@@ -73,7 +81,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def book_suggestion
+    @book = @current_user.get_suggestion
+    redirect_to book_path(@book)
+  end
+
   private
+
+    def upload
+      uploaded_io = params[:user][:picture]
+      File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+    end
 
     def user_params(*args)
       params.require(:user).permit(*args)
@@ -84,24 +104,25 @@ class UsersController < ApplicationController
     end
 
     def check_session
-      params[:id] == session[:current_user_id]
+      params[:id].to_i == session[:current_user_id]
     end
 
     def current_user
-      @user = User.find(session[:current_user_id])
+      @current_user = User.find(session[:current_user_id])
     end
 
     def books_to_read
-      @current_user = current_user
+      @user = get_user
       @unread_books = []
       @read_books = []
-      @current_user.user_books.select do |user_book|
+      @user.user_books.select do |user_book|
         if user_book.read
           @read_books << user_book
         else
           @unread_books << user_book
         end
       end
+
     end
 
 end
