@@ -1,19 +1,21 @@
-<h1>User Profile</h1>
 
-<%= @user.name %>
+<div class="jumbotron">
+  <h1>User Profile</h1>
+  <h3><%= @user.name %></h3>
+</div>
 
-<br><br>
+<br>
 
 
 <h1><%= @user.name.upcase %>'S BOOKSHELF</h1>
-
-  <% byebug %>
-  <% @selected_books.each do |user_book| %>
+<h2>Unread Books</h2>
+  <% @unread_books.each do |user_book| %>
     <%= user_book.book.title %>
 
   <% if session[:current_user_id] %>
     <% @user = User.find(session[:current_user_id]) %>
       <%= form_tag read_book_path, method: :post do %>
+      <%= hidden_field_tag :user_book_id, user_book.id %>
       <%= label_tag :rating %>
       <%= number_field_tag :rating, 1, in: (1..5) %><br>
       <%= submit_tag "Mark Book as Read" %>
@@ -24,6 +26,15 @@
   <br>
 <% end %>
 
+<br><br>
+
+<h1>Read Books</h1>
+<% @read_books.each do |user_book| %>
+  <strong><%= user_book.book.title %></strong><br>
+  Average Rating: <%= user_book.book.rating %><br>
+  User Rating: <%= user_book.user_rating %><br>
+  <br>
+<% end %>
 
 <br><br>
 <% if @user.id == session[:current_user_id] %>

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   root "users#home"
   get '/search', to: 'books#search'
   get '/tag_search', to: 'books#tag_search'
+  get '/discussion_and_book_search', to: 'discussions#search'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -16,5 +17,7 @@ Rails.application.routes.draw do
 
   post '/user/:id/add_book', to: 'users#add_book', as: 'add_book'
   post '/user/:id/read_book', to: 'users#mark_as_read', as: 'read_book'
+
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

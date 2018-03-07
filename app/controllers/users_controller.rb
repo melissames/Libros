@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :get_user, only: [:show, :edit, :update, :destroy]
   before_action :require_login, only: [:index, :show, :edit, :update, :destroy]
   before_action :current_user, only: [:add_book, :mark_as_read]
+  before_action :books_to_read, only: [:show]
 
   def home
 
@@ -13,9 +14,7 @@ class UsersController < ApplicationController
 
   def show
     @current_user = current_user
-    @selected_books = @current_user.user_books.select do |user_book|
-      user_book.read == false
-    end
+
   end
 
   def new
@@ -57,7 +56,7 @@ class UsersController < ApplicationController
   end
 
   def mark_as_read
-    @user_book = @user.user_books.find(params[:id])
+    @user_book = @user.user_books.find(params[:user_book_id])
     @rating = params[:rating]
     @user.read_book(@user_book, @rating)
 
@@ -92,5 +91,17 @@ class UsersController < ApplicationController
       @user = User.find(session[:current_user_id])
     end
 
+    def books_to_read
+      @current_user = current_user
+      @unread_books = []
+      @read_books = []
+      @current_user.user_books.select do |user_book|
+        if user_book.read
+          @read_books << user_book
+        else
+          @unread_books << user_book
+        end
+      end
+    end
 
 end

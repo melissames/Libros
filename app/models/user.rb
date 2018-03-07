@@ -21,12 +21,7 @@ class User < ApplicationRecord
   end
 
   def read_book(user_book, rating)
-    byebug
     user_book.update(read: true, user_rating: rating)
-  end
-
-  def rate_book
-
   end
 
 end

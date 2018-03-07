@@ -26,7 +26,7 @@
 
 <% if session[:current_user_id] %>
   <%= form_for @tag do |f|%>
-    <%= f.label :name %>
+    <%= f.label :name, value='Tag ' %>
     <%= f.text_field :name %>
     <%= f.hidden_field :book_id, value: @book_tag.book_id %>
     <%= f.submit %>

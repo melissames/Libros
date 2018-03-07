@@ -1,9 +1,8 @@
 class BooksController < ApplicationController
 
-
-
   def index
     @books = Book.order(rating: :desc)
+    @tags = Tag.all
   end
 
   def show
@@ -15,7 +14,7 @@ class BooksController < ApplicationController
 
   def search
     @books = Book.make_book(params[:query])
-    if @books == []
+    if @books.include? nil || @books.empty?
       flash[:notice] = "Please input a valid title!"
       redirect_to books_path
     else

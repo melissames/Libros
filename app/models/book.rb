@@ -26,12 +26,16 @@ class Book < ApplicationRecord
     @books = []
     if parsed_data["totalItems"] > 0
       @books = parsed_data["items"][0..1].map do |book|
-        @author = Author.find_or_create_by(name: book["volumeInfo"]["authors"].first)
-        @book = Book.find_or_create_by(title: book["volumeInfo"]["title"])
-        @book.update(description: book["volumeInfo"]["description"], image: book["volumeInfo"]["imageLinks"]["thumbnail"], rating: book["volumeInfo"]["averageRating"])
-        @book.tags << Tag.find_or_create_by(name: book["volumeInfo"]["categories"].first) unless book["volumeInfo"]["categories"] == nil
-        @book.authors << @author
-        @book
+        @author = Author.find_or_create_by(name: book["volumeInfo"]["authors"][0]) unless book["volumeInfo"]["authors"] == nil
+        @book = Book.find_or_create_by(title: book["volumeInfo"]["title"]) unless book["volumeInfo"]["title"] == nil
+        if @author && @book
+          @book.update(description: book["volumeInfo"]["description"], image: book["volumeInfo"]["imageLinks"]["thumbnail"], rating: book["volumeInfo"]["averageRating"]) unless book["volumeInfo"]["description"] == nil || book["volumeInfo"]["imageLinks"]["thumbnail"] == nil
+          @book.tags << Tag.find_or_create_by(name: book["volumeInfo"]["categories"].first) unless book["volumeInfo"]["categories"] == nil
+          @book.authors << @author
+          @book
+        else
+          @books.flatten
+        end
       end
     end
     @books

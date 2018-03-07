@@ -23,11 +23,19 @@
   <%= submit_tag("Search") %>
 <% end %>
 
+<br><br>
 
-<% @books.each do |book| %>
-  <%= link_to book.title, book %>
-<% end %>
+  <h3>Popular Books</h3>
+  <% @books.first(10).each do |book| %>
+    <%= link_to book.title, book %><br>
+  <% end %>
+  <br>
 
+
+  <h3>Popular Tags</h3>
+  <% @books.first(10).each do |book| %>
+    <%= link_to book.title, book %><br>
+  <% end %>
 
 
 

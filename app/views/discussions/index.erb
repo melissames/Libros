@@ -1,9 +1,38 @@
 
+<% if flash[:notice] %>
+  <div class="alert alert-warning">
+    <strong><%= flash[:notice] %></strong>
+  </div>
+<% end %>
+
+
 <div class="jumbotron">
   <h1> Discussion Database!!!! </h1>
-
 </div>
 
-<% @discussions.each do |disc| %>
-  <%= link_to disc.topic, disc %>
+<% if session[:current_user_id] %>
+  <%= form_tag '/discussion_and_book_search', method: :get do %>
+    <%= label_tag :topic, "Topic: " %>
+    <%= text_field_tag :topic %>
+    <%= label_tag :query, "Search by book title: " %>
+    <%= text_field_tag :query %>
+    <%= submit_tag "Create New Discussion"%>
+  <% end %>
 <% end %>
+
+<br><br>
+
+<% @discussed_books = Book.all.select do |book| %>
+  <% book.discussions != []%>
+    <% end %>
+
+<% @discussed_books.each do |disc_book|  %>
+  <h3><%= link_to disc_book.title, book_path(disc_book) %></h3>
+        <% disc_book.discussions.each do |disc| %>
+        <%= link_to disc.topic, disc %><br>
+      <% end %>
+<% end %>
+
+
+<!-- Book.all  if book has discussion  display book title as heading -->
+<!-- display discussion topics related to book -->

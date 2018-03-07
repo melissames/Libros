@@ -6,6 +6,8 @@ class DiscussionsController < ApplicationController
 
   def index
     @discussions = Discussion.all
+    @discussion = Discussion.new
+    @book = Book.new
   end
 
   def show
@@ -22,6 +24,22 @@ class DiscussionsController < ApplicationController
       redirect_to @discussion
     else
       render :new
+    end
+  end
+
+  def search
+    @book = Book.make_book(params[:query]).first
+    if !@book
+      flash[:notice] = "Please input a valid title!"
+      redirect_to discussions_path
+    else
+      @discussion = Discussion.new(topic: params[:topic], book_id: @book.id)
+      if @discussion.save
+        redirect_to @discussion
+      else
+        flash[:notice] = "Please input a valid topic!"
+        redirect_to discussions_path
+      end
     end
   end
 
