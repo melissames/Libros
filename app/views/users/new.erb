@@ -16,9 +16,18 @@
       <!-- <%= f.label :name %> -->
       <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
       <!-- <%= f.label :password %> -->
+
       <%= f.password_field :password, class: "form-control", placeholder:"Enter Password" %><br>
       <!-- <%= f.label :password_confirmation %> -->
       <%= f.password_field :password_confirmation, class: "form-control", placeholder:"Confirm Password"%><br>
+
+
+
+        <!-- <% @tags.each do |tag| %>
+          <%= f.label tag.name %>
+          <%= f.check_box :tags, { multiple: true }, tag, false %>
+        <% end %> -->
+
       <%= f.submit%>
     </div>
   <% end %>

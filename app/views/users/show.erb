@@ -3,6 +3,29 @@
 <%= @user.name %>
 
 <br><br>
+
+
+<h1><%= @user.name.upcase %>'S BOOKSHELF</h1>
+
+  <% byebug %>
+  <% @selected_books.each do |user_book| %>
+    <%= user_book.book.title %>
+
+  <% if session[:current_user_id] %>
+    <% @user = User.find(session[:current_user_id]) %>
+      <%= form_tag read_book_path, method: :post do %>
+      <%= label_tag :rating %>
+      <%= number_field_tag :rating, 1, in: (1..5) %><br>
+      <%= submit_tag "Mark Book as Read" %>
+    <% end %>
+  <% end %>
+
+
+  <br>
+<% end %>
+
+
+<br><br>
 <% if @user.id == session[:current_user_id] %>
   <%= button_to 'Edit User', edit_user_path(@user), :method => 'get' %>
   <%= button_to 'Delete User', user_path(@user), :method => 'delete' %>

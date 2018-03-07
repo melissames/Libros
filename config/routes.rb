@@ -13,5 +13,8 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+
+  post '/user/:id/add_book', to: 'users#add_book', as: 'add_book'
+  post '/user/:id/read_book', to: 'users#mark_as_read', as: 'read_book'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
