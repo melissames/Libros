@@ -21,11 +21,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params(:name, :password, :password_confirmation, :bio))
-    params[:user][:tags].each do |tag|
-      @user.tags << Tag.find(tag)
+    if params[:user][:tags]
+       params[:user][:tags].each do |tag|
+         @user.tags << Tag.find(tag)
+       end
     end
-    @user.image = params[:user][:picture].original_filename
-
+    @user.image = params[:user][:picture].original_filename unless params[:user][:picture] == nil
     if @user.save
       upload unless params[:user][:picture] == nil
       session[:current_user_id] = @user.id
@@ -46,10 +47,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params(:name, :bio))
+    @user.assign_attributes(user_params(:name, :bio))
+    @user.image = params[:user][:picture].original_filename unless params[:user][:picture] == nil
+    if params[:user][:tags]
       params[:user][:tags].each do |tag|
         @user.tags << Tag.find(tag)
       end
+    end
+    if @user.save
+      upload unless params[:user][:picture] == nil
+      session[:current_user_id] = @user.id
       redirect_to user_path(@user)
     else
       render :edit

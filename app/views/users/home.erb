@@ -1,11 +1,37 @@
 
-<div class="jumbotron">
+<!-- <div class="jumbotron">
   <h1 class="display-4">HELLO BOOKS</h1>
   <h3 class="display-8">Wanna be my li-bro? </h3>
   <hr class="my-4">
   <p class="lead">Connect to friends, see what others are reading, discuss books, and find new books!</p>
-</div>
+</div> -->
 
-<br><br>
-<%= button_to "Sign In", login_path, method: :get %>
-<%= button_to "Sign Up", new_user_path, method: :get %>
+<!-- <br><br> -->
+
+
+<!-- <div class="pusher">
+  <div class="ui primary vertical masthead center aligned segment">
+  </div> -->
+
+<br>
+  <div class="ui text container">
+    <h1 class="ui huge centered header">
+      JOIN OUR BOOK CLUB
+    </h1>
+    <h2 class="ui large centered header">Connect with friends, talk about books, and track what you've read</h2>
+
+      <div class="ui center aligned segment">
+        <div class="ui inverted button"><%= link_to "Sign in", login_path, method: :get %></div>
+        <div class="ui inverted button"><%= link_to "Sign up", new_user_path, method: :get %></div>
+      </div>
+  </div>
+
+    <style>
+    body {
+      background-image: url('/images/giphy (12).gif') !important;
+      background-size: cover !important;
+    }
+    </style>
+    <!-- <div class="ui fluid image">
+      <img src="/images/bookshelf4.png">
+    </div> -->

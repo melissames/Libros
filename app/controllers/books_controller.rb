@@ -13,13 +13,22 @@ class BooksController < ApplicationController
   end
 
   def search
-    @books = Book.make_book(params[:query])
-    if @books.include? nil || @books.empty?
+    if params[:query] == ""
       flash[:notice] = "Please input a valid title!"
       redirect_to books_path
     else
-      @books
-      render :index
+      @books = Book.make_book(params[:query])
+      if @books.include? nil
+        byebug
+        flash[:notice] = "Please input a valid title!"
+        redirect_to books_path
+      elsif @books == []
+        flash[:notice] = "Please input a valid title!"
+        redirect_to books_path
+      else
+        @books
+        render :index
+      end
     end
   end
 

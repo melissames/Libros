@@ -1,19 +1,37 @@
 
 <% if flash[:message] %>
-  <div class="alert alert-warning">
+  <div class="ui red message">
     <strong><%= flash[:message] %></strong>
   </div>
 <% end %>
 
-<div class="jumbotron">
-  <h3>Sign in</h3>
+
+<div class="ui three column centered grid">
+  <div class="column">
+    <div class="ui header">
+      <br><br>
+      <h1>Sign in</h1>
+    </div>
+    <div class="ui form">
+      <%= form_tag '/login' do %>
+      <div class="fields">
+        <div class="field">
+
+          <%= text_field_tag :"user[name]", nil , placeholder: "Enter your name..." %>
+
+          <%= password_field_tag :"user[password]", nil, placeholder: "Enter your password..." %>
+        </div>
+        <br>
+        <%= submit_tag "Sign in", class: "ui blue button"%>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 
-<%= form_tag '/login' do %>
-<%= label_tag :name %>
-<%= text_field_tag :"user[name]" %>
-<%= label_tag :password %>
-<%= password_field_tag :"user[password]" %>
-<%= submit_tag "Sign In"%>
-<% end %>
+<style>
+body {
+  background-image: url('/images/giphy (12).gif') !important;
+  background-size: cover !important;
+}
+</style>

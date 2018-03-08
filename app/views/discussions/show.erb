@@ -2,28 +2,41 @@
 <h3><%= link_to @discussion.book.title, book_path(@discussion.book_id), method: :get %></h3>
 
 
-
-
-  <div class="card card-primary">
+<div class="ui comments">
+  <h3 class="ui dividing header">Comments</h3>
   <% @discussion.comments.each do |comment| %>
-    <div class="card-header">
-      <p class="card-title"><%= link_to comment.user.name, user_path(comment.user_id) %></p>
-    </div>
-    <div class="card-text">
-      <p>  <%= comment.content %></p>
+  <div class="comment">
+    <a class="avatar">
+      <%= image_tag "/uploads/#{comment.user.image}", class: "ui image" %>
+    </a>
+    <div class="content">
+      <a class="author">     <%= comment.user.name %></a>
+      <div class="metadata">
+        <span class="date"><%= comment.created_at.strftime("%b %e, %Y at %R") %></span>
+      </div>
+      <div class="text">
+        <%= comment.content %>
+      </div>
     </div>
     <br>
-    <% end %>
+  <% end %>
   </div>
-<br>
+</div>
+
+
+<div class="ui reply form">
 
   <%= form_for @comment do |f| %>
-    <%= f.hidden_field :discussion_id, value: @discussion.id %>
-    <%= f.hidden_field :user_id, value: session[:current_user_id] %>
-    <%= f.text_area :content, placeholder: 'Write your post about this discussion' %>
-    <%= f.submit %>
+      <%= f.hidden_field :discussion_id, value: @discussion.id %>
+      <%= f.hidden_field :user_id, value: session[:current_user_id] %>
+      <div class="field">
+      <%= f.text_area :content, placeholder: "Reply to thread" %>
+      </div>
+      <%= f.submit "Add Reply", class: "ui blue labeled submit button"%>
   <% end %>
+</div>
+
 
 <br><br>
 
-<%= button_to "Back to Discussions", discussions_path, method: :get %>
+<%= button_to "Back to Discussions", discussions_path, method: :get, class: "ui blue labeled submit button" %>

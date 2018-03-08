@@ -13,3 +13,14 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+
+$('.ui.rating').rating({
+  initialRating: 3,
+  maxRating: 5,
+  clearable: true,
+  onRate: function(value) {
+    console.log('value set to:' + value);
+  },
+
+});

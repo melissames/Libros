@@ -1,46 +1,78 @@
 <% if flash[:notice] %>
-  <div class="alert alert-warning">
+  <div class="ui red message">
     <strong><%= flash[:notice] %></strong>
   </div>
 <% end %>
 
-<div class="jumbotron">
-  <h1 > BBOOOOOOKKKSSS </h1>
+<br><br>
+
+    <h1 class="ui huge dividing header centered">
+      BBOOOOOOKKKSSS
+      <br><br>
+      <%= button_to "Suggested for YOU", '/suggested_books', method: 'get', class: "ui inverted blue button" %>
+      <br>
+    </h1>
+
+<br><br>
+<div class="ui two column centered grid">
+  <div class="column">
+    <%= form_tag "/search", method: "get", class: "ui form" do %>
+      <div class="field">
+        <%= text_field_tag :query, nil, placeholder: "Search for books..." %>
+      </div>
+        <%= submit_tag "Search", class: "ui inverted blue button right floated"  %>
+      <br>
+    <% end %>
+    <br><br>
+
+    <%= form_tag("/tag_search", method: "get", class: "ui form") do %>
+    <div class="field">
+      <%= text_field_tag :query, nil, placeholder: "Search by tag..." %>
+    </div>
+    <%= submit_tag "Search", class: "ui inverted blue button right floated"  %>
+    <br>
+    <% end %>
+    <br><br>
+
+  </div>
 </div>
 
-
-<%= form_tag("/search", method: "get") do %>
-  <%= label_tag(:query, "Search for books:") %>
-  <%= text_field_tag(:query) %>
-  <%= submit_tag("Search") %>
-<% end %>
+<br><br>
+<h1 class="ui dividing header centered">
+  Popular Books
+  <br><br>
+</h1>
 
 <br><br>
-
-<%= form_tag("/tag_search", method: "get") do %>
-  <%= label_tag(:query, "Search by tag:") %>
-  <%= text_field_tag :query %>
-  <%= submit_tag("Search") %>
-<% end %>
-
-<%= button_to "Suggested for YOU", '/suggested_books', method: 'get' %>
-
-
-<br><br>
-
-  <h3>Popular Books</h3>
-  <% @books.first(10).each do |book| %>
-    <%= image_tag "#{book.image}" %>
-    <%= link_to book.title, book %><br><br>
+<div class="ui six column grid">
+  <% @books.first(12).each do |book| %>
+  <div class="column">
+    <div class="ui fluid card">
+      <div class="ui image">
+        <%= image_tag "#{book.image}", class: "ui image" %>
+      </div>
+      <div class="content">
+        <a class="header"><%= link_to book.title, book %></a>
+      </div>
+    </div>
+  </div>
   <% end %>
+</div>
+
+  <h1 class="ui dividing header centered">
+    Popular Tags
+    <br><br>
+  </h1>
   <br>
 
 
-  <h3>Popular Tags</h3>
-  <% Tag.first(10).each do |tag| %>
-    <%= tag.name %><br>
-  <% end %>
-
+    <div class="ui six column grid">
+      <% Tag.all.sample(30).each do |tag| %>
+        <div class="column">
+          <button class ="ui inverted blue button">#<%= tag.name %></button>
+        </div>
+      <% end %>
+  </div>
 
 
 

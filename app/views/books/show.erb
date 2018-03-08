@@ -1,55 +1,75 @@
+<br>
 
-<div class="jumbotron">
-  <h1> <%= @book.title %> </h1>
-  <%= image_tag "#{@book.image}" %>
-  <% if @book.authors != [] %>
-    <h5>By: <%= @book.authors[0].name %></h5>
+  <div class="ui four column centered grid">
+
+    <div class="column">
+      <div class="ui centered card">
+        <div class="centered ui small image">
+          <%= image_tag "#{@book.image}", class: "ui image"%>
+        </div>
+        <div class="content">
+          <h1 class="ui center aligned header"><%= @book.title %></h1>
+          <% if @book.authors != [] %>
+            <h5 class="ui center aligned header">By: <%= @book.authors[0].name %></h5>
+          <% end %>
+          <div class="description">
+            <% if @book.description %>
+              <p><%= @book.description[0..200] + "..." %></p>
+            <% end %>
+          </div>
+
+          <div class='ui center aligned segment'>
+            <% if session[:current_user_id] %>
+              <% @user = User.find(session[:current_user_id]) %>
+              <%= form_tag add_book_path, method: :post do %>
+              <%= hidden_field_tag :book_id, value: @book_tag.book_id %>
+              <%= submit_tag "Add to reading list", class: "ui blue centered button" %>
+            <% end %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+  <br><br>
+  <br><br>
+
+<h2 class="ui centered dividing header"> Create a new discussion for <%= @book.title %> </h2>
+  <% if session[:current_user_id] %>
+    <div class="ui form">
+      <%= form_for @discussion do |f|%>
+        <%= f.text_field :topic, placeholder: "Enter a discussion topic..." %>
+        <%= f.hidden_field :book_id, value: @book.id %>
+        <br><br>
+        <%= f.submit class: "ui blue button" %>
+      <% end %>
+    </div>
   <% end %>
-</div>
+  <br><br>
 
-<%= @book.description %>
-<br><br>
-
-<% if session[:current_user_id] %>
-<% @user = User.find(session[:current_user_id]) %>
-  <%= form_tag add_book_path, method: :post do %>
-    <%= hidden_field_tag :book_id, value: @book_tag.book_id %>
-    <%= submit_tag "Add to reading list" %>
-  <% end %>
-<% end %>
-
-<br><br>
-
-<h4> Discussion Topics </h4>
+  <h2 class="ui centered dividing header"> Discuss <%= @book.title %> </h2>
   <% @book.discussions.each do |disc| %>
+  <div class='ui center aligned segment'>
     <%= link_to disc.topic, discussion_path(disc), method: 'get' %><br>
+  </div>
+  <% end %>
+<br><br>
+<h2 class="ui centered dividing header"> Create a tag for <%= @book.title %> </h2>
+  <% if session[:current_user_id] %>
+    <div class="ui form">
+      <%= form_for @tag do |f|%>
+        <%= f.text_field :name, placeholder: "Enter a tag..." %>
+        <%= f.hidden_field :book_id, value: @book_tag.book_id %>
+        <br><br>
+        <%= f.submit class: "ui blue button"%>
+      <% end %>
+    </div>
   <% end %>
 
   <br><br>
 
-<% if session[:current_user_id] %>
-  <%= form_for @discussion do |f|%>
-    <%= f.label :topic %>
-    <%= f.text_field :topic %>
-    <%= f.hidden_field :book_id, value: @book.id %>
-    <%= f.submit %>
+  <h2  class="ui centered dividing header"> Tags for <%= @book.title%> </h2>
+  <% @book.tags.uniq.each do |tag| %>
+    <button class= "ui blue inverted button">#<%= tag.name %></button><br><br>
   <% end %>
-<% end %>
+  </div>
 
-<% if session[:current_user_id] %>
-  <%= form_for @tag do |f|%>
-    <%= f.label :name, value='Tag ' %>
-    <%= f.text_field :name %>
-    <%= f.hidden_field :book_id, value: @book_tag.book_id %>
-    <%= f.submit %>
-  <% end %>
-<% end %>
-
-
-
-<br><br>
-
-<h3> BOOK TAGS!!! YAY </h3>
-<% @book.tags.each do |tag| %>
-  <%= tag.name %><br>
-<% end %>
+</div>

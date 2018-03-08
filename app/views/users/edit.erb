@@ -1,26 +1,49 @@
-<h1>Edit User</h1>
+
 
   <% if @user.errors.any? %>
     <% @user.errors.full_messages.each do |message| %>
+    <div class="ui red message">
       <ul>
         <li><%= message %></li>
       </ul>
+    </div>
     <% end %>
   <% end %>
 
-  <%= form_for @user do |f| %>
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: "form-control" %><br>
-      <%= f.text_area :bio, class: "form-control", placeholder: "Enter a brief bio" %><br>
-      <%= f.file_field :picture %>
+
+  <div class="ui three column centered grid">
+    <div class="column">
+      <div class="ui centered header">
+        <br><br>
+        <h1 class= "ui centered dividing header">Edit your info</h1>
+      </div>
+      <div class="ui form">
+        <%= form_for @user do |f| %>
+        <div class="fields">
+          <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
+          <%= f.text_area :bio, class: "form-control", placeholder:"Enter a brief bio..." %><br>
+          <%= f.label :picture, "Upload a picture" %><br>
+          <%= f.file_field :picture%><br>
+          <br>
+        </div>
+      </div>
     </div>
-    <h5>Pick some of your favorite tags</h5>
-      <% @tags.each do |tag| %>
-        <%= f.label tag.name %>
-        <%= f.check_box :tags, { multiple: true }, tag.id, false %>
-        <br>
-      <% end %>
-        <br>
-  <%= f.submit%>
-  <% end %>
+  </div>
+
+            <div class="ui five column centered grid">
+              <h3 class="ui header">
+                Pick some of your favorite tags
+                <br><br>
+              </h3>
+              <% Tag.all.each do |tag| %>
+                <div class="column">
+                  <%= f.check_box :tags, { multiple: true, class: "ui checkbox" }, tag.id, false %>
+                  <%= f.label tag.name %>
+                </div>
+              <% end %>
+          </div>
+          <br><br>
+          <%= submit_tag "Update your account", class: "ui blue button centered" %>
+        <% end %>
+
+        <br><br>

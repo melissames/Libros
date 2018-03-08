@@ -1,57 +1,92 @@
+<br><br>
+<div class="ui four column centered grid">
+  <div class="column">
+    <div class="ui centered card">
+      <div class="centered ui small image">
+        <%= image_tag "/uploads/#{@user.image}", class: "ui image"%>
+      </div>
+      <div class="content">
+        <h1 class="ui center aligned header"><%= @user.name %></h1>
+        <div class="description">
+          <p><%= @user.bio %></p>
+        </div>
+      </div>
+      <% if params[:id].to_i == session[:current_user_id] %>
+      <div class="ui center aligned segment">
+        <%= button_to 'Edit User', edit_user_path(@user), :method => 'get', class: "ui inverted blue button" %>
+        <br>
+        <%= button_to 'Delete User', user_path(@user), :method => 'delete', class: "ui inverted blue button" %>
+      </div>
+      <% end %>
+    </div>
 
-<div class="jumbotron">
-  <h1><%= @user.name %></h1>
-  <%= image_tag("/uploads/#{@user.image}", width: '250') %>
 
-  <p><%= @user.bio %></p>
+<br>
 
+  <h1 class='ui centered dividing header'><%= @user.name.upcase %>'S FAVORITE TAGS</h1>
+    <% @user.tags.each do |tag| %>
+    <button class= 'ui inverted blue button'> #<%= tag.name %></button><br><br>
+    <% end %>
+  </div>
 </div>
 
-<br>
-
-<h1><%= @user.name.upcase %>'S FAVORITE TAGS</h1>
-  <% @user.tags.each do |tag| %>
-  #<%= tag.name %><br>
-  <% end %>
-
 
 <br>
 
-
-<h1><%= @user.name.upcase %>'S BOOKSHELF</h1>
-<h2>Unread Books</h2>
+<h1 class='ui centered header'><%= @user.name.upcase %>'S BOOKSHELF</h1>
+<h2 class='ui dividing header'>Unread Books</h2>
+<div class="ui six column centered grid">
   <% @unread_books.each do |user_book| %>
-    <%= image_tag "#{user_book.book.image}" %>
-    <strong><%= link_to user_book.book.title, book_path(user_book.book) %></strong>
+  <div class="column">
+    <div class="ui centered card">
+      <div class="ui image">
+        <%= image_tag "#{user_book.book.image}", class: "ui image" %>
+      </div>
+      <div class="content">
+        <h5 class="ui centered header"><%= link_to user_book.book.title, book_path(user_book.book) %></h5>
+      </div>
 
-  <% if session[:current_user_id] == @user.id %>
-    <% @user = User.find(session[:current_user_id]) %>
-      <%= form_tag read_book_path, method: :post do %>
-      <%= hidden_field_tag :user_book_id, user_book.id %>
-      <%= label_tag :rating %>
-      <%= number_field_tag :rating, 1, in: (1..5) %><br>
-      <%= submit_tag "Mark Book as Read" %>
-    <% end %>
+        <% if session[:current_user_id] == @user.id %>
+          <div class="ui center aligned segment">
+            <% @user = User.find(session[:current_user_id]) %>
+
+            <%= form_tag read_book_path, method: :post do %>
+            <%= hidden_field_tag :user_book_id, user_book.id %>
+              <strong><%= label_tag :rating %></strong>
+              <%= number_field_tag :rating, 1, in: (1..5) %><br><br>
+              <%= submit_tag "Mark Book as Read", class: "ui inverted blue button" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+  </div>
   <% end %>
+</div>
+
+
 
 
   <br>
-<% end %>
+
 
 <br><br>
 
-<h1>Read Books</h1>
-<% @read_books.each do |user_book| %>
-  <%= image_tag "#{user_book.book.image}" %>
-  <strong><%= link_to user_book.book.title, book_path(user_book.book) %></strong><br>
-    Average Rating: <%= user_book.book.rating %><br>
-    User Rating: <%= user_book.user_rating %><br>
-  <br>
+<h2 class='ui dividing header'>Read Books</h2>
+<div class="ui six column centered grid">
+  <% @read_books.each do |user_book| %>
+  <div class="column">
+    <div class="ui centered card">
+      <div class="ui image">
+        <%= image_tag "#{user_book.book.image}", class: "ui image" %>
+        </div>
+        <div class="content">
+          <h5 class="ui centered header"><%= link_to user_book.book.title, book_path(user_book.book) %></h5><br><br>
+          <strong>Average Rating: <%= user_book.book.rating %></strong><br><br>
+          <strong>  User Rating: <%= user_book.user_rating %></strong><br><br>
+        </div>
+      </div>
+    </div>
 <% end %>
+</div>
 
 <br><br>
-
-<% if params[:id].to_i == session[:current_user_id] %>
-  <%= button_to 'Edit User', edit_user_path(@user), :method => 'get' %>
-  <%= button_to 'Delete User', user_path(@user), :method => 'delete' %>
-<% end %>

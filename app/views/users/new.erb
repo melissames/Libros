@@ -1,7 +1,50 @@
 
-<div class="jumbotron">
-  <h1 class="display-4">Create New User</h1>
+<div class="ui three column centered grid">
+  <div class="column">
+    <div class="ui centered header">
+      <br><br>
+      <h1>Create New User</h1>
+    </div>
+    <div class="ui form">
+      <%= form_for @user do |f| %>
+      <div class="fields">
+        <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
+        <%= f.password_field :password, class: "form-control", placeholder:"Enter Password" %><br>
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder:"Confirm Password"%><br>
+        <%= f.text_area :bio, class: "form-control", placeholder:"Enter a brief bio..." %><br>
+        <%= f.label :picture, "Upload a picture" %><br>
+        <%= f.file_field :picture %><br>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>
+
+          <div class="ui five column centered grid">
+            <h3 class="ui header">
+              Pick some of your favorite tags
+              <br><br>
+            </h3>
+            <% Tag.all.each do |tag| %>
+              <div class="column">
+                <%= f.check_box :tags, { multiple: true, class: "ui checkbox" }, tag.id, false %>
+                <%= f.label tag.name %>
+              </div>
+            <% end %>
+        </div>
+        <br><br>
+        <%= submit_tag "Create new account", class: "ui blue button centered" %>
+      <% end %>
+
+
+<!-- <style>
+body {
+  background-image: url('/images/giphy (12).gif') !important;
+  background-size: cover !important;
+}
+</style> -->
+
+
 
   <% if @user.errors.any? %>
     <% @user.errors.full_messages.each do |message| %>
@@ -9,23 +52,4 @@
         <li><%= message %></li>
       </ul>
     <% end %>
-  <% end %>
-
-  <%= form_for @user do |f| %>
-    <div class="form-group">
-      <%= f.text_field :name, class: "form-control", placeholder:"Enter Name" %><br>
-      <%= f.password_field :password, class: "form-control", placeholder:"Enter Password" %><br>
-      <%= f.password_field :password_confirmation, class: "form-control", placeholder:"Confirm Password"%><br>
-      <%= f.text_area :bio, class: "form-control", placeholder:"Enter a brief bio..." %><br>
-      <%= f.file_field :picture %><br>
-
-      <h5>Pick some of your favorite tags</h5>
-        <% Tag.all.each do |tag| %>
-          <%= f.label tag.name %>
-          <%= f.check_box :tags, { multiple: true }, tag.id, false %>
-          <br>
-        <% end %>
-          <br>
-      <%= f.submit%>
-    </div>
   <% end %>
