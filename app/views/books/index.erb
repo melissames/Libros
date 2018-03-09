@@ -38,25 +38,105 @@
 </div>
 
 <br><br>
-<h1 class="ui dividing header centered">
-  Popular Books
-  <br><br>
-</h1>
+<div class="jumbotron">
 
-<br><br>
-<div class="ui six column grid">
-  <% @books.sample(12).each do |book| %>
-  <div class="column">
-    <div class="ui fluid card">
-      <div class="ui image">
-        <%= image_tag "#{book.image}", class: "ui image" %>
+  <h1 class="ui header centered">
+    Popular Books
+  </h1>
+
+  <!--Carousel Wrapper-->
+  <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+      <!--Controls-->
+      <div class="controls-top">
+        <div class="ui center aligned segment">
+
+          <a class="ui blue centered button" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i>Back</a>
+          <a class="ui blue centered button" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i>Next</a>
+        </div>
       </div>
-      <div class="content">
-        <a class="header"><%= link_to book.title, book %></a>
+      <br><br>
+      <!--/.Controls-->
+
+      <!--Indicators-->
+      <ol class="carousel-indicators">
+          <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+          <li data-target="#multi-item-example" data-slide-to="1"></li>
+          <li data-target="#multi-item-example" data-slide-to="2"></li>
+      </ol>
+      <!--/.Indicators-->
+
+      <!--Slides-->
+      <div class="carousel-inner" role="listbox">
+
+          <!--First slide-->
+          <div class="carousel-item active">
+            <div class="ui six column grid">
+              <% @books.sample(6).each do |book| %>
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="ui image">
+                    <%= image_tag "#{book.image}", class: "ui image" %>
+                  </div>
+                  <div class="content">
+                    <a class="header"><%= link_to book.title, book %></a>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            </div>
+      <br><br>
+          </div>
+          <!--/.First slide-->
+
+          <!--Second slide-->
+          <div class="carousel-item">
+            <div class="ui six column grid">
+              <% @books.sample(6).each do |book| %>
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="ui image">
+                    <%= image_tag "#{book.image}", class: "ui image" %>
+                  </div>
+                  <div class="content">
+                    <a class="header"><%= link_to book.title, book %></a>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            </div>
+            <br><br>
+          </div>
+          <!--/.Second slide-->
+
+          <!--Third slide-->
+          <div class="carousel-item">
+            <div class="ui six column grid">
+              <% @books.sample(6).each do |book| %>
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="ui image">
+                    <%= image_tag "#{book.image}", class: "ui image" %>
+                  </div>
+                  <div class="content">
+                    <a class="header"><%= link_to book.title, book %></a>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            </div>
+
+          <br><br>
+          </div>
+          <!--/.Third slide-->
+
       </div>
-    </div>
+      <!--/.Slides-->
+
   </div>
-  <% end %>
+  <!--/.Carousel Wrapper-->
+  <br><br>
+</div>
 </div>
 
   <h1 class="ui dividing header centered">
@@ -73,6 +153,12 @@
         </div>
       <% end %>
   </div>
+
+
+
+
+
+<br><br><br><br>
 
 
 
