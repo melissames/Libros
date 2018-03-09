@@ -3,6 +3,13 @@
     <strong><%= flash[:notice] %></strong>
   </div>
 <% end %>
+<% if flash[:tag] %>
+  <div class="ui blue message">
+    <strong><%= flash[:tag] %></strong>
+  </div>
+<% end %>
+
+
 
 <br><br>
 
@@ -148,9 +155,12 @@
 
     <div class="ui six column grid">
       <% Tag.all.sample(30).each do |tag| %>
-        <div class="column">
-          <button class ="ui inverted blue button">#<%= tag.name %></button>
-        </div>
+      <div class="column">
+        <%= form_tag '/users/add_tag', method: 'post' do %>
+          <%= hidden_field_tag :tag_id, tag.id %>
+          <%= submit_tag "#" + "#{tag.name.split(' ')[0]}", class: "ui inverted blue button" %>
+        <% end %>
+      </div>
       <% end %>
   </div>
 

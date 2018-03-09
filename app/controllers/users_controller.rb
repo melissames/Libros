@@ -94,6 +94,12 @@ class UsersController < ApplicationController
     redirect_to book_path(@book)
   end
 
+  def add_tag
+    UserTag.find_or_create_by(user_id: session[:current_user_id], tag_id: params[:tag_id])
+    flash[:tag] = "Successfully added tag to favorites"
+    redirect_to books_path
+  end
+
   private
 
     def upload
