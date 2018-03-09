@@ -89,6 +89,7 @@ class UsersController < ApplicationController
   end
 
   def book_suggestion
+    flash[:book_message] = "Here's a book I found specifically for you: "
     @book = @current_user.get_suggestion
     redirect_to book_path(@book)
   end

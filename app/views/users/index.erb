@@ -1,7 +1,7 @@
 <h1 class="ui centered dividing header">BOOKCLUB MEMBERS</h1>
 
 <div class="ui six column grid">
-  <% @users.each do |user|  %>
+  <% @users.sample(12).each do |user|  %>
   <div class="column">
     <div class="ui fluid card">
       <div class="ui image">

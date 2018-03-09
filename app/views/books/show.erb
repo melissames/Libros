@@ -1,5 +1,13 @@
 <br>
 
+<% if flash[:book_message] %>
+  <div class="ui blue message">
+    <strong><%= flash[:book_message] %></strong>
+  </div>
+<% end %>
+
+
+
   <div class="ui four column centered grid">
 
     <div class="column">
@@ -25,11 +33,16 @@
               <%= hidden_field_tag :book_id, value: @book_tag.book_id %>
               <%= submit_tag "Add to reading list", class: "ui blue centered button" %>
             <% end %>
+            <h1 class="ui dividing header">
+            </h1>
+            <br>
+              <%= button_to "Get New Suggestion", '/suggested_books', method: 'get', class: "ui blue centered button" %>
           </div>
         </div>
         <% end %>
       </div>
   <br><br>
+
   <br><br>
 
 <h2 class="ui centered dividing header"> Create a new discussion for <%= @book.title %> </h2>

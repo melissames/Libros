@@ -1,9 +1,9 @@
 
 <div class="ui three column centered grid">
   <div class="column">
-    <div class="ui centered header">
-      <br><br>
-      <h1>Create New User</h1>
+    <%= image_tag "/images/case_book_logo.png", class: "ui centered image" %>
+    <div class="ui centered dividing header">
+      Create New Account
     </div>
     <div class="ui form">
       <%= form_for @user do |f| %>
@@ -35,6 +35,7 @@
         <br><br>
         <%= submit_tag "Create new account", class: "ui blue button centered" %>
       <% end %>
+      <br><br>
 
 
 <!-- <style>

@@ -13,6 +13,8 @@
       </div>
       <% if params[:id].to_i == session[:current_user_id] %>
       <div class="ui center aligned segment">
+        <%= button_to "Get Book Suggestion", '/suggested_books', method: 'get', class: "ui inverted blue button" %>
+        <br>
         <%= button_to 'Edit User', edit_user_path(@user), :method => 'get', class: "ui inverted blue button" %>
         <br>
         <%= button_to 'Delete User', user_path(@user), :method => 'delete', class: "ui inverted blue button" %>
@@ -24,7 +26,7 @@
 <br>
 
   <h1 class='ui centered dividing header'><%= @user.name.upcase %>'S FAVORITE TAGS</h1>
-    <% @user.tags.each do |tag| %>
+    <% @user.tags.sample(5).each do |tag| %>
     <button class= 'ui inverted blue button'> #<%= tag.name %></button><br><br>
     <% end %>
   </div>

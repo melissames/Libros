@@ -7,7 +7,7 @@
 <br><br>
 
     <h1 class="ui huge dividing header centered">
-      BBOOOOOOKKKSSS
+      BOOKS
       <br><br>
       <%= button_to "Suggested for YOU", '/suggested_books', method: 'get', class: "ui inverted blue button" %>
       <br>
@@ -45,7 +45,7 @@
 
 <br><br>
 <div class="ui six column grid">
-  <% @books.first(12).each do |book| %>
+  <% @books.sample(12).each do |book| %>
   <div class="column">
     <div class="ui fluid card">
       <div class="ui image">
